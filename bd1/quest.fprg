@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="3.0">
+    <attributes>
+        <attribute name="name" value="Code Quest - Зогсоолын төлбөр"/>
+        <attribute name="authors" value=""/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="машины_тоо, ээлж, дугаар, оршин_суугч, орсон_цаг, орсон_мин, гарсан_цаг, гарсан_мин, орсон_нийт, гарсан_нийт, минут, төлбөр, дээд_минут, дээд_дугаар" type="Integer" array="False" size=""/>
+            <declare name="хөнгөлөлт, төлөх, нийт_орлого, дээд_цаг" type="Real" array="False" size=""/>
+            <assign variable="нийт_орлого" expression="0"/>
+            <assign variable="дээд_минут" expression="-1"/>
+            <assign variable="дээд_дугаар" expression="0"/>
+            <output expression="&quot;=== ЗОГСООЛЫН ТӨЛБӨРИЙН СИСТЕМ ===&quot;" newline="True"/>
+            <output expression="&quot;Тариф: 0-30 мин үнэгүй | 31-60: 1000 | 61-180: 2500 | 181-480: 5000 | 481+: 8000 (MNT)&quot;" newline="True"/>
+            <output expression="&quot;Оршин суугч 20% хөнгөлөлттэй. Зөвхөн нэг өдрийн дотор (00:00-23:59).&quot;" newline="True"/>
+            <do expression="машины_тоо &lt; 5 or машины_тоо &gt; 10">
+                <body>
+                    <output expression="&quot;Өнөөдрийн машины тоо (5-10): &quot;" newline="False"/>
+                    <input variable="машины_тоо"/>
+                    <if expression="машины_тоо &lt; 5 or машины_тоо &gt; 10">
+                        <then>
+                            <output expression="&quot;Буруу утга! 5-аас 10 хооронд оруулна уу.&quot;" newline="True"/>
+                        </then>
+                        <else/>
+                    </if>
+                </body>
+            </do>
+            <call expression="Гарчиг_хэвлэх()"/>
+            <for variable="ээлж" start="1" end="n" direction="inc" step="1">
+                <body>
+                    <output expression="&quot;--- &quot; &amp; ээлж &amp; &quot;-р машин ---&quot;" newline="True"/>
+                    <do expression="дугаар &lt; 0 or дугаар &gt; 9999">
+                        <body>
+                            <output expression="&quot;Дугаарын тоон хэсэг (0-9999): &quot;" newline="False"/>
+                            <input variable="дугаар"/>
+                            <if expression="дугаар &lt; 0 or дугаар &gt; 9999">
+                                <then>
+                                    <output expression="&quot;Буруу утга! 0-9999 хооронд оруулна уу.&quot;" newline="True"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </body>
+                    </do>
+                    <do expression="орсон_цаг &lt; 0 or орсон_цаг &gt; 23 or орсон_мин &lt; 0 or орсон_мин &gt; 59">
+                        <body>
+                            <output expression="&quot;Орсон цаг (0-23): &quot;" newline="False"/>
+                            <input variable="орсон_цаг"/>
+                            <output expression="&quot;Орсон минут (0-59): &quot;" newline="False"/>
+                            <input variable="орсон_мин"/>
+                            <if expression="орсон_цаг &lt; 0 or орсон_цаг &gt; 23 or орсон_мин &lt; 0 or орсон_мин &gt; 59">
+                                <then>
+                                    <output expression="&quot;Буруу цаг! Цаг 0-23, минут 0-59 байна.&quot;" newline="True"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </body>
+                    </do>
+                    <assign variable="орсон_нийт" expression="орсон_цаг * 60 + орсон_мин"/>
+                    <do expression="гарсан_цаг &lt; 0 or гарсан_цаг &gt; 23 or гарсан_мин &lt; 0 or гарсан_мин &gt; 59 or гарсан_нийт &lt;= орсон_нийт">
+                        <body>
+                            <output expression="&quot;Гарсан цаг (0-23): &quot;" newline="False"/>
+                            <input variable="гарсан_цаг"/>
+                            <output expression="&quot;Гарсан минут (0-59): &quot;" newline="False"/>
+                            <input variable="гарсан_мин"/>
+                            <assign variable="гарсан_нийт" expression="гарсан_цаг * 60 + гарсан_мин"/>
+                            <if expression="гарсан_цаг &lt; 0 or гарсан_цаг &gt; 23 or гарсан_мин &lt; 0 or гарсан_мин &gt; 59 or гарсан_нийт &lt;= орсон_нийт">
+                                <then>
+                                    <output expression="&quot;Буруу цаг! Гарсан цаг орсноос хойш, 00:00-23:59 дотор байна.&quot;" newline="True"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </body>
+                    </do>
+                    <do expression="оршин_суугч &lt;&gt; 0 and оршин_суугч &lt;&gt; 1">
+                        <body>
+                            <output expression="&quot;Оршин суугч уу? (1 = тийм, 0 = үгүй): &quot;" newline="False"/>
+                            <input variable="оршин_суугч"/>
+                            <if expression="оршин_суугч &lt;&gt; 0 and оршин_суугч &lt;&gt; 1">
+                                <then>
+                                    <output expression="&quot;Буруу утга! 1 эсвэл 0 оруулна уу.&quot;" newline="True"/>
+                                </then>
+                                <else/>
+                            </if>
+                        </body>
+                    </do>
+                    <assign variable="минут" expression="гарсан_нийт - орсон_нийт"/>
+                    <assign variable="төлбөр" expression="Төлбөр_бодох(минут)"/>
+                    <if expression="оршин_суугч == 1 and төлбөр &gt; 0">
+                        <then>
+                            <assign variable="хөнгөлөлт" expression="төлбөр * 20 / 100"/>
+                        </then>
+                        <else>
+                            <assign variable="хөнгөлөлт" expression="0"/>
+                        </else>
+                    </if>
+                    <assign variable="төлөх" expression="төлбөр - хөнгөлөлт"/>
+                    <assign variable="нийт_орлого" expression="нийт_орлого + төлөх"/>
+                    <if expression="минут &gt; дээд_минут">
+                        <then>
+                            <assign variable="дээд_минут" expression="минут"/>
+                            <assign variable="дээд_дугаар" expression="дугаар"/>
+                        </then>
+                        <else/>
+                    </if>
+                    <call expression="Мөр_хэвлэх(ээлж, дугаар, орсон_цаг, орсон_мин, гарсан_цаг, гарсан_мин, минут, төлбөр, хөнгөлөлт, төлөх)"/>
+                </body>
+            </for>
+            <output expression="&quot;Нийт машин: &quot; &amp; машины_тоо" newline="True"/>
+            <output expression="&quot;Өдрийн нийт орлого: &quot; &amp; нийт_орлого &amp; &quot; MNT&quot;" newline="True"/>
+            <assign variable="дээд_цаг" expression="(дээд_минут - дээд_минут % 60) / 60"/>
+            <output expression="&quot;Хамгийн удаан зогссон: &quot; &amp; дээд_дугаар &amp; &quot; дугаартай машин (&quot; &amp; дээд_минут &amp; &quot; мин = &quot; &amp; дээд_цаг &amp; &quot; цаг &quot; &amp; дээд_минут % 60 &amp; &quot; мин)&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="Төлбөр_бодох" type="Integer" variable="төлбөр">
+        <parameters>
+            <parameter name="минут" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="төлбөр" type="Integer" array="False" size=""/>
+            <if expression="минут &lt;= 30">
+                <then>
+                    <assign variable="төлбөр" expression="0"/>
+                </then>
+                <else>
+                    <if expression="минут &gt; 30 and минут &lt;= 60">
+                        <then>
+                            <assign variable="төлбөр" expression="1000"/>
+                        </then>
+                        <else>
+                            <if expression="минут &lt;= 180">
+                                <then>
+                                    <assign variable="төлбөр" expression="2500"/>
+                                </then>
+                                <else>
+                                    <if expression="минут &lt;= 480">
+                                        <then>
+                                            <assign variable="төлбөр" expression="5000"/>
+                                        </then>
+                                        <else>
+                                            <assign variable="төлбөр" expression="8000"/>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="Гарчиг_хэвлэх" type="None" variable="">
+        <parameters/>
+        <body>
+            <output expression="&quot;No | Plate | Entry | Exit | Min | Fee | Disc | Pay&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="Мөр_хэвлэх" type="None" variable="">
+        <parameters>
+            <parameter name="дд" type="Integer" array="False"/>
+            <parameter name="дугаар_п" type="Integer" array="False"/>
+            <parameter name="орсон_цаг_п" type="Integer" array="False"/>
+            <parameter name="орсон_мин_п" type="Integer" array="False"/>
+            <parameter name="гарсан_цаг_п" type="Integer" array="False"/>
+            <parameter name="гарсан_мин_п" type="Integer" array="False"/>
+            <parameter name="минут_п" type="Integer" array="False"/>
+            <parameter name="төлбөр_п" type="Integer" array="False"/>
+            <parameter name="хөнгөлөлт_п" type="Real" array="False"/>
+            <parameter name="төлөх_п" type="Real" array="False"/>
+        </parameters>
+        <body>
+            <output expression="дд &amp; &quot; | &quot; &amp; дугаар_п &amp; &quot; | &quot; &amp; орсон_цаг_п &amp; &quot;:&quot; &amp; орсон_мин_п &amp; &quot; | &quot; &amp; гарсан_цаг_п &amp; &quot;:&quot; &amp; гарсан_мин_п &amp; &quot; | &quot; &amp; минут_п &amp; &quot; | &quot; &amp; төлбөр_п &amp; &quot; | &quot; &amp; хөнгөлөлт_п &amp; &quot; | &quot; &amp; төлөх_п" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
