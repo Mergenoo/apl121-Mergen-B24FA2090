@@ -18,13 +18,8 @@ int main(void)
     printf("Оршин суугч 20%% хөнгөлөлттэй. Зөвхөн нэг өдрийн дотор (00:00-23:59).\n\n");
 
     
-    do {
-        printf("Өнөөдрийн машины тоо (5-10): ");
-        scanf("%d", &n);
-        if (n < 5 || n > 10) {
-            printf("Буруу утга! 5-аас 10 хооронд оруулна уу.\n");
-        }
-    } while (n < 5 || n > 10);
+    printf("Өнөөдрийн машины тоо: ");
+    scanf("%d", &n);
 
   
     printf("\n%-4s %-8s %-7s %-7s %6s %8s %8s %8s\n",
@@ -95,7 +90,7 @@ int main(void)
         pay = fee - discount;
         totalIncome = totalIncome + pay;
 
-        /* Хамгийн удаан зогссон машиныг хайх */
+       
         if (minutes > maxMinutes) {
             maxMinutes = minutes;
             maxPlate = plate;
