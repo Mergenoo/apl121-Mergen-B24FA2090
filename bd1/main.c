@@ -26,7 +26,7 @@ int main(void)
         }
     } while (n < 5 || n > 10);
 
-    /* Хүснэгтийн толгой */
+  
     printf("\n%-4s %-8s %-7s %-7s %6s %8s %8s %8s\n",
            "No", "Plate", "Entry", "Exit", "Min", "Fee", "Disc", "Pay");
     printf("------------------------------------------------------------\n");
@@ -78,9 +78,9 @@ int main(void)
             fee = 0;
         } else if (minutes > 30 && minutes <= 60) {
             fee = 1000;
-        } else if (minutes <= 180) {
+        } else if (minutes > 60 && minutes <= 180) {
             fee = 2500;
-        } else if (minutes <= 480) {
+        } else if (minutes > 180 && minutes <= 480) {
             fee = 5000;
         } else {
             fee = 8000;
