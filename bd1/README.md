@@ -1,3 +1,11 @@
+# Enehuu bie daaltiig hiiheed AI ashiglsan bolno.
+
+Yun ymar zorilgoor ashiglah bolson:
+1. Codebaseiig iluu oilgomjtoi emh tsegtste bolon testiin uyd oilgomjtoi baidaltai bolgohiin tuld chamin chimeglel hiilguulseen
+2. Codebasees iluu oilgomjtoi document uusgeh bolon testnd ashiglsaan
+3. Haragdah uzemjn deer l AI ashiglsan bolno
+
+
 # APL121 · Бие даалт №1 — Code Quest
 
 **Сэдэв №27 — Зогсоолын төлбөр**
